@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -11,7 +11,7 @@ import (
 func postHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Received a request")
 	defer r.Body.Close()
-	body, err := ioutil.ReadAll(r.Body)
+	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "Error reading request body", http.StatusInternalServerError)
 		return
@@ -21,7 +21,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/hello", postHandler).Methods("POST")
+	router.HandleFunc("/", postHandler).Methods("POST")
 	fmt.Println("Server is running on port 8080:")
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
