@@ -16,13 +16,13 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error reading request body", http.StatusInternalServerError)
 		return
 	}
-	fmt.Printf(string(body))
+	fmt.Println(string(body))
 }
 
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/hello", postHandler).Methods("POST")
-	fmt.Println("Server is running on port 8080")
+	fmt.Println("Server is running on port 8080:")
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
 		fmt.Println(err)
